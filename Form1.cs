@@ -89,6 +89,8 @@ namespace WindowsFormsApplication1
             richTextBox1.Select(index, 1);
             string strbuf = "";
 
+            if (richTextBox1.SelectionFont == null) return "";
+
             int iFontSize = (int)richTextBox1.SelectionFont.Size;
             if (m_iFontSize != iFontSize)
             {
@@ -122,7 +124,7 @@ namespace WindowsFormsApplication1
                 if (m_bIsBold == true && !richTextBox1.SelectionFont.Bold)
                 {
                     m_bIsBold = false;
-                    strbuf += "* ";
+                    strbuf += "*";
                 }
             }
 
@@ -167,8 +169,17 @@ namespace WindowsFormsApplication1
 
                 if (richTextBox1.SelectionColor != Color.Black)
                 {
-                    string colorname = ColorTranslator.ToHtml(richTextBox1.SelectionColor);
-                    strbuf += " %{color:" + colorname + "}";
+                    if (m_bIsBold == true)
+                    {
+                        string colorname = ColorTranslator.ToHtml(richTextBox1.SelectionColor);
+                        strbuf += "%{color:" + colorname + "}";
+                    }
+                    else
+                    {
+                        string colorname = ColorTranslator.ToHtml(richTextBox1.SelectionColor);
+                        strbuf += " %{color:" + colorname + "}";
+                    }
+                    
                     m_bIsColorChanged = true;
                 }
             }
